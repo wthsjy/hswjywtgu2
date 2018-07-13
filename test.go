@@ -1,9 +1,7 @@
 package hswjywtgu2
 
-import (
-	"fmt"
-)
+import "github.com/wthsjy/hswjywtgu2/version"
 
-func Version() {
-	fmt.Printf("hswjywtgu2 version: v0.15")
+func Debug() {
+	version.Version()
 }
