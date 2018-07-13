@@ -7,7 +7,7 @@ import (
 )
 
 func TestKafComsumer_Comsumer(t *testing.T) {
-	dataChan := make(chan interface{})
+	dataChan := make(chan []byte)
 	comsumer := KafComsumer{
 		Addr:     strings.Split("127.0.0.1:9092", ","),
 		Topics:   strings.Split("topic_test", ","),
@@ -20,11 +20,8 @@ func TestKafComsumer_Comsumer(t *testing.T) {
 	}
 
 	go func() {
-		for v := range dataChan {
-			data, ok := v.(string)
-			if ok {
-				fmt.Printf("%s\n", data)
-			}
+		for bs := range dataChan {
+			fmt.Printf("%s\n", bs)
 		}
 	}()
 }

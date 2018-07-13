@@ -11,7 +11,7 @@ type KafComsumer struct {
 	Addr     []string
 	Topics   []string
 	GroupId  string
-	dataChan chan interface{}
+	dataChan chan []byte
 	Conf     *cluster.Config
 }
 
