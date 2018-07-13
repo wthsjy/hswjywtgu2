@@ -1,10 +1,10 @@
 package mysql
 
 import (
-	"time"
 	"context"
-	"sync"
 	"errors"
+	"sync"
+	"time"
 )
 
 type safeMap struct {

@@ -1,10 +1,10 @@
 package kafka
 
 import (
-	"github.com/bsm/sarama-cluster"
 	"fmt"
-	"time"
 	"github.com/Shopify/sarama"
+	"github.com/bsm/sarama-cluster"
+	"time"
 )
 
 type KafComsumer struct {

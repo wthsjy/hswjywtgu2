@@ -1,6 +1,7 @@
-tag_version=v0.23
+tag_version=v0.24
 
 tag:
+	go fmt ./...
 	git add .
 	git commit -m "init test"
 	export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;

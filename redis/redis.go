@@ -1,10 +1,10 @@
 package redis
 
 import (
-	"sync"
-	"strings"
 	"errors"
 	"github.com/go-redis/redis"
+	"strings"
+	"sync"
 )
 
 var redisConfig = sync.Map{}

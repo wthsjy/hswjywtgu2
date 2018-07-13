@@ -8,8 +8,8 @@ import (
 	"time"
 
 	// for register mysql driver
-	_ "github.com/go-sql-driver/mysql"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var (
@@ -93,7 +93,7 @@ type Tx struct {
 
 // Row row.
 type Row struct {
-	err    error
+	err error
 	*sql.Row
 	db     *DB
 	query  string
@@ -299,7 +299,7 @@ func (r *Row) Scan(dest ...interface{}) (err error) {
 	if r.cancel != nil {
 		r.cancel()
 	}
-	if err!=nil&& err != ErrNoRows {
+	if err != nil && err != ErrNoRows {
 		fmt.Printf("Scan Not NO Rows err:%v\n", err)
 	}
 	return

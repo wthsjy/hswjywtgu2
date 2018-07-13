@@ -1,9 +1,9 @@
 package kafka
 
 import (
-	"testing"
-	"strings"
 	"fmt"
+	"strings"
+	"testing"
 )
 
 func TestKafComsumer_Comsumer(t *testing.T) {
