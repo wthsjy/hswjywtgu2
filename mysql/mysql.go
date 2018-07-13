@@ -299,7 +299,7 @@ func (r *Row) Scan(dest ...interface{}) (err error) {
 	if r.cancel != nil {
 		r.cancel()
 	}
-	if err != ErrNoRows {
+	if err!=nil&& err != ErrNoRows {
 		fmt.Printf("Scan Not NO Rows err:%v\n", err)
 	}
 	return

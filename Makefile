@@ -1,4 +1,4 @@
-tag_version=v0.21
+tag_version=v0.22
 
 tag:
 	git add .
