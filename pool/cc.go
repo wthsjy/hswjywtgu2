@@ -1,7 +1,9 @@
 package pool
 
-import "fmt"
+import (
+	"github.com/wthsjy/hswjywtgu2"
+)
 
 func PPPP() {
-	fmt.Printf("xxxx")
+	hswjywtgu2.Version()
 }
