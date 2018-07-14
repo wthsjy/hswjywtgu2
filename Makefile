@@ -1,4 +1,4 @@
-tag_version=v0.24
+tag_version=v0.25
 
 tag:
 	go fmt ./...
