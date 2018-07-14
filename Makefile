@@ -1,9 +1,10 @@
-tag_version=v0.26-beta
+tag_version=v0.27-beta
+tag_desc="make tag test"
 
 tag:
 	go fmt ./...
 	git add .
-	git commit -m "init test"
+	git commit -m $(tag_desc)
 	export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;
 	git push
 	git tag $(tag_version)
