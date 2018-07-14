@@ -1,4 +1,4 @@
-tag_version=v0.25
+tag_version=v0.26-beta
 
 tag:
 	go fmt ./...
