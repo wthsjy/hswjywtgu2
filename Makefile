@@ -11,6 +11,13 @@ tag:
 	export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;
 	git push origin $(tag_version)
 
+commit:
+	go fmt ./...
+	git add .
+	git commit -m "update"
+	export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;
+	git push
+
 dep_init:
 	export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;
 	dep init -v
