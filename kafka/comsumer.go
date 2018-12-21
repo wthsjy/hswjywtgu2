@@ -40,8 +40,6 @@ func (c *KafComsumer) Comsumer() error {
 		return err
 	}
 
-	defer comsumer.Close()
-
 	for {
 		select {
 		case err := <-comsumer.Errors():
