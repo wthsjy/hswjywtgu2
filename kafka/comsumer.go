@@ -8,11 +8,10 @@ import (
 )
 
 type KafComsumer struct {
-	Addr     []string
-	Topics   []string
-	GroupId  string
-	dataChan chan []byte
-	Conf     *cluster.Config
+	Addr    []string
+	Topics  []string
+	GroupId string
+	Conf    *cluster.Config
 }
 
 func defaultConfig() *cluster.Config {
@@ -24,13 +23,12 @@ func defaultConfig() *cluster.Config {
 }
 
 // Comsumer kafka 消费
-func (c *KafComsumer) Comsumer() error {
+func (c *KafComsumer) Comsumer(method func([]byte)) error {
 	if c.Conf == nil {
 		c.Conf = defaultConfig()
 	}
 	comsumer, err := cluster.NewConsumer(c.Addr, c.GroupId, c.Topics, c.Conf)
 	defer func() {
-		close(c.dataChan)
 		if comsumer != nil {
 			comsumer.Close()
 		}
@@ -47,7 +45,7 @@ func (c *KafComsumer) Comsumer() error {
 			return nil
 		case <-comsumer.Notifications():
 		case msg := <-comsumer.Messages():
-			c.dataChan <- msg.Value
+			method(msg.Value)
 			comsumer.MarkOffset(msg, "") //MarkOffset 并不是实时写入kafka，有可能在程序crash时丢掉未提交的offset
 		}
 	}
