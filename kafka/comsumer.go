@@ -29,26 +29,31 @@ func (c *KafComsumer) Comsumer() error {
 		c.Conf = defaultConfig()
 	}
 	comsumer, err := cluster.NewConsumer(c.Addr, c.GroupId, c.Topics, c.Conf)
+	defer func() {
+		close(c.dataChan)
+		if comsumer != nil {
+			comsumer.Close()
+		}
+	}()
 	if err != nil {
 		fmt.Println(err.Error())
 		return err
 	}
 
 	defer comsumer.Close()
-	go func(c *cluster.Consumer) {
-		errors := c.Errors()
-		noti := c.Notifications()
-		for {
-			select {
-			case err := <-errors:
-				fmt.Printf("[ERROR] %s\n", err.Error())
-			case <-noti:
-			}
+
+	errors := comsumer.Errors()
+	noti := comsumer.Notifications()
+	for {
+		select {
+		case err := <-errors:
+			fmt.Printf("[ERROR] %s\n", err.Error())
+			return nil
+		case <-noti:
+		case msg := <-comsumer.Messages():
+			c.dataChan <- msg.Value
+			comsumer.MarkOffset(msg, "") //MarkOffset 并不是实时写入kafka，有可能在程序crash时丢掉未提交的offset
 		}
-	}(comsumer)
-	for msg := range comsumer.Messages() {
-		c.dataChan <- msg.Value
-		comsumer.MarkOffset(msg, "") //MarkOffset 并不是实时写入kafka，有可能在程序crash时丢掉未提交的offset
 	}
 	return nil
 }
