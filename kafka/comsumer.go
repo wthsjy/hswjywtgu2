@@ -7,11 +7,16 @@ import (
 	"time"
 )
 
+type KafcInterface interface {
+	Process(bs []byte)
+}
+
 type KafComsumer struct {
 	Addr    []string
 	Topics  []string
 	GroupId string
 	Conf    *cluster.Config
+	Process KafcInterface
 }
 
 func defaultConfig() *cluster.Config {
@@ -23,7 +28,7 @@ func defaultConfig() *cluster.Config {
 }
 
 // Comsumer kafka 消费
-func (c *KafComsumer) Comsumer(method func([]byte)) error {
+func (c *KafComsumer) Comsumer() error {
 	if c.Conf == nil {
 		c.Conf = defaultConfig()
 	}
@@ -45,7 +50,9 @@ func (c *KafComsumer) Comsumer(method func([]byte)) error {
 			return nil
 		case <-comsumer.Notifications():
 		case msg := <-comsumer.Messages():
-			method(msg.Value)
+			if c.Process != nil {
+				c.Process.Process(msg.Value)
+			}
 			comsumer.MarkOffset(msg, "") //MarkOffset 并不是实时写入kafka，有可能在程序crash时丢掉未提交的offset
 		}
 	}
