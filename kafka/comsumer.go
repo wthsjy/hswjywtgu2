@@ -42,14 +42,12 @@ func (c *KafComsumer) Comsumer() error {
 
 	defer comsumer.Close()
 
-	errors := comsumer.Errors()
-	noti := comsumer.Notifications()
 	for {
 		select {
-		case err := <-errors:
+		case err := <-comsumer.Errors():
 			fmt.Printf("[ERROR] %s\n", err.Error())
 			return nil
-		case <-noti:
+		case <-comsumer.Notifications():
 		case msg := <-comsumer.Messages():
 			c.dataChan <- msg.Value
 			comsumer.MarkOffset(msg, "") //MarkOffset 并不是实时写入kafka，有可能在程序crash时丢掉未提交的offset
